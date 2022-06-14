@@ -13,7 +13,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <div className="navbar">
         <Navbar />
       </div>
@@ -44,7 +44,8 @@ function App() {
             level={5}
             style={{ color: 'white', textAlign: 'center' }}
           >
-            Cryptoverse Inc. <br />
+            Copyright © 2022
+            <Link to="/">Cryptoverse Inc.</Link> <br />
             All Rights Reserved.
           </Typography.Title>
           <Space>
