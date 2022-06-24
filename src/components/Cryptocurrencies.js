@@ -4,14 +4,17 @@ import { Link } from 'react-router-dom';
 import { Card, Row, Col, Input } from 'antd';
 
 import { useGetCryptosQuery } from '../services/cryptoApi';
+import Loader from './Loader';
 
-function Cryptocurrencies({ simplified }) {
+const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
   const { data: cryptosList, isFetching } = useGetCryptosQuery(count);
-  const [cryptos, setCryptos] = useState([]);
+  const [cryptos, setCryptos] = useState();
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    setCryptos(cryptosList?.data?.coins);
+
     const filteredData = cryptosList?.data?.coins.filter((item) =>
       item.name.toLowerCase().includes(searchTerm)
     );
@@ -19,7 +22,7 @@ function Cryptocurrencies({ simplified }) {
     setCryptos(filteredData);
   }, [cryptosList, searchTerm]);
 
-  if (isFetching) return 'Loading...';
+  if (isFetching) return <Loader />;
 
   return (
     <>
@@ -27,11 +30,10 @@ function Cryptocurrencies({ simplified }) {
         <div className="search-crypto">
           <Input
             placeholder="Search Cryptocurrency"
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => setSearchTerm(e.target.value.toLowerCase())}
           />
         </div>
       )}
-
       <Row gutter={[32, 32]} className="crypto-card-container">
         {cryptos?.map((currency) => (
           <Col
@@ -41,7 +43,8 @@ function Cryptocurrencies({ simplified }) {
             className="crypto-card"
             key={currency.uuid}
           >
-            <Link to={`/crypto/${currency.id}`}>
+            {/* Note: Change currency.id to currency.uuid  */}
+            <Link key={currency.uuid} to={`/crypto/${currency.uuid}`}>
               <Card
                 title={`${currency.rank}. ${currency.name}`}
                 extra={<img className="crypto-image" src={currency.iconUrl} />}
@@ -57,6 +60,6 @@ function Cryptocurrencies({ simplified }) {
       </Row>
     </>
   );
-}
+};
 
 export default Cryptocurrencies;
