@@ -15,7 +15,10 @@ import {
   ThunderboltOutlined,
 } from '@ant-design/icons';
 
-import { useGetCryptoDetailsQuery } from '../services/cryptoApi';
+import {
+  useGetCryptoDetailsQuery,
+  useGetCryptoHistoryQuery,
+} from '../services/cryptoApi';
 import Loader from './Loader';
 
 const { Title, Text } = Typography;
