@@ -7,22 +7,33 @@ const cryptoApiHeaders = {
 
 const baseUrl = 'https://coinranking1.p.rapidapi.com';
 
-const createRequest = (url) => ({ url, headers: cryptoApiHeaders });
+const createRequest = (url, extraParams = {}) => ({
+  url,
+  headers: cryptoApiHeaders,
+  ...extraParams,
+});
 
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     getCryptos: builder.query({
-      query: (count) => createRequest(`/coins?limit=${count}`),
+      query: (count) =>
+        createRequest(`/coins?limit=${count}`, {
+          params: { referenceCurrencyUuid: 'yhjMzLPhuIDl' },
+        }),
     }),
     getCryptoDetails: builder.query({
-      query: (coinId) => createRequest(`/coin/${coinId}`),
+      query: (coinId) =>
+        createRequest(`/coin/${coinId}`, {
+          params: { referenceCurrencyUuid: 'yhjMzLPhuIDl' },
+        }),
     }),
-    // Note: Change the coin price history endpoint from this - `coin/${coinId}/history/${timeperiod} to this - `coin/${coinId}/history?timeperiod=${timeperiod}`
     getCryptoHistory: builder.query({
-      query: ({ coinId, timeperiod }) =>
-        createRequest(`coin/${coinId}/history?timeperiod=${timeperiod}`),
+      query: ({ coinId, timePeriod }) =>
+        createRequest(`/coin/${coinId}/history`, {
+          params: { timePeriod, referenceCurrencyUuid: 'yhjMzLPhuIDl' },
+        }),
     }),
   }),
 });
