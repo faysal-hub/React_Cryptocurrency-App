@@ -1,8 +1,7 @@
 import React from 'react';
+import Chart from 'chart.js/auto';
+import { Line } from 'react-chartjs-2';
 import { Col, Row, Typography } from 'antd';
-import moment from 'moment';
-import { Chart } from 'react-chartjs-2';
-import 'chart.js/auto';
 
 const { Title } = Typography;
 
@@ -12,17 +11,15 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
 
   for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {
     coinPrice.push(coinHistory?.data?.history[i].price);
-    coinTimestamp.push(
-      moment(coinHistory.data.history[i].timestamp * 1000).format(
-        "Do MMMM, 'YY (HH:mm)"
-      )
-    );
   }
 
-  for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {}
-
-  coinPrice.reverse();
-  coinTimestamp.reverse();
+  for (let i = 0; i < coinHistory?.data?.history?.length; i += 1) {
+    coinTimestamp.push(
+      new Date(
+        coinHistory?.data?.history[i].timestamp * 1000
+      ).toLocaleDateString()
+    );
+  }
 
   const data = {
     labels: coinTimestamp,
@@ -38,23 +35,14 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
   };
 
   const options = {
-    plugins: {
-      legend: {
-        display: true,
-        labels: {
-          color: 'rgb(255, 99, 132)',
-        },
-      },
-    },
     scales: {
-      x: {
-        display: false,
-      },
-      y: {
-        ticks: {
-          display: false,
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true,
+          },
         },
-      },
+      ],
     },
   };
 
@@ -62,18 +50,18 @@ const LineChart = ({ coinHistory, currentPrice, coinName }) => {
     <>
       <Row className="chart-header">
         <Title level={2} className="chart-title">
-          {coinName} Price Chart
+          {coinName} Price Chart{' '}
         </Title>
         <Col className="price-container">
           <Title level={5} className="price-change">
             Change: {coinHistory?.data?.change}%
           </Title>
           <Title level={5} className="current-price">
-            Current {coinName} Price: $ {currentPrice}
+            Current {coinName} Price: ${currentPrice}
           </Title>
         </Col>
       </Row>
-      <Chart type="line" options={options} data={data} />
+      <Line data={data} options={options} />
     </>
   );
 };
