@@ -12,6 +12,29 @@ import {
 import icon from '../images/cryptocurrency.png';
 
 const Navbar = () => {
+  const items = [
+    {
+      key: 'home',
+      icon: <HomeOutlined />,
+      label: <Link to="/">Home</Link>,
+    },
+    {
+      key: 'cryptocurrencies',
+      icon: <FundOutlined />,
+      label: <Link to="/cryptocurrencies">Cryptocurrencies</Link>,
+    },
+    {
+      key: 'exchanges',
+      icon: <MoneyCollectOutlined />,
+      label: <Link to="/exchanges">Exchanges</Link>,
+    },
+    {
+      key: 'news',
+      icon: <BulbOutlined />,
+      label: <Link to="/news">News</Link>,
+    },
+  ];
+
   const [activeMenu, setActiveMenu] = useState(true);
   const [screenSize, setScreenSize] = useState(undefined);
 
@@ -49,19 +72,12 @@ const Navbar = () => {
       </div>
       {activeMenu && (
         <div>
-          <Menu theme="dark">
-            <Menu.Item key={'Home'} icon={<HomeOutlined />}>
-              <Link to="/">Home</Link>
-            </Menu.Item>
-            <Menu.Item key={'crypto'} icon={<FundOutlined />}>
-              <Link to="cryptocurrencies">Cryptocurrencies</Link>
-            </Menu.Item>
-            <Menu.Item key={'exchanges'} icon={<MoneyCollectOutlined />}>
-              <Link to="/exchanges">Exchanges</Link>
-            </Menu.Item>
-            <Menu.Item key={'news'} icon={<BulbOutlined />}>
-              <Link to="/news">News</Link>
-            </Menu.Item>
+          <Menu theme="dark" defaultSelectedKeys="home">
+            {items.map((el) => (
+              <Menu.Item key={el.key} icon={el.icon}>
+                {el.label}
+              </Menu.Item>
+            ))}
           </Menu>
         </div>
       )}
