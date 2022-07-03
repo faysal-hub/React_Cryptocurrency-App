@@ -39,7 +39,7 @@ REACT_APP_NEWS_API_HOST = 'bing-news-search1.p.rapidapi.com'
 1. Clone this **repository** to your local computer.
 2. Open **terminal** in root directory.
 3. Type and Run `yarn install` or `npm install`.
-4. Once packages are installed, type and run `yarn start` or `nom start`
+4. Once packages are installed, type and run `yarn start` or `npm start`
 5. Now app is fully configured and you can start using this app :+1:
 
 ## 📃 Built with
